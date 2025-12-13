@@ -8,8 +8,6 @@ const sortedMemories = [...memories].filter(m => m.date !== "The Future");
 // Initialize the map
 const map = L.map('map').setView([memories[0].lat, memories[0].lng], 12);
 
-
-
 // Add OpenStreetMap tile layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -115,20 +113,11 @@ function showMemory(mem) {
         distanceDiv.textContent = 'Geolocation not supported.';
     }
 
-    // Add audio player if audio exists
-    const audioContainer = document.getElementById('audioContainer');
-    if (mem.audio) {
-        audioContainer.innerHTML = `
-            <div class="audio-player">
-                <i class="fas fa-music"></i>
-                <audio controls autoplay>
-                    <source src="${mem.audio}" type="audio/mpeg">
-                </audio>
-            </div>
-        `;
-    } else {
-        audioContainer.innerHTML = '';
-    }
+    const card = document.getElementById('memoryCard');
+    card.style.display = 'block';
+    card.classList.remove('hide');
+    card.classList.add('show');
+    // pointer-events auto is handled via CSS    
 
     document.getElementById('memoryCard').classList.add('show');
     // Center map on the memory
@@ -150,7 +139,14 @@ function showMemory(mem) {
 }
 
 function closeCard() {
-    document.getElementById('memoryCard').classList.remove('show');
+    const card = document.getElementById('memoryCard');
+    card.classList.add('hide');
+    card.classList.remove('show');
+
+    card.addEventListener('transitionend', function handler() {
+        card.style.display = 'none'; // hide completely
+        card.removeEventListener('transitionend', handler);
+    });
 }
 
 // ========================================

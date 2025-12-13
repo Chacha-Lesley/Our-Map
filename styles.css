@@ -286,6 +286,7 @@ body {
     max-width: 400px;
     padding: 20px;
     opacity: 0;
+    pointer-events: none;
     transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55),
                 background 1s ease, box-shadow 0.5s ease;
     cursor: url('https://cdn-icons-png.flaticon.com/512/616/616408.png'), auto; /* sparkle cursor */
@@ -309,11 +310,13 @@ body {
 .memory-card.show {
     transform: translateX(-50%) translateY(-20vh);
     opacity: 1;
+    pointer-events: auto; 
 }
 
 .memory-card.hide {
     transform: translateX(-50%) translateY(500px);
     opacity: 0;
+    pointer-events: none;
 }    
 
 .polaroid {
