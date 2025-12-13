@@ -42,7 +42,7 @@ body {
 
 .header {
     position: absolute;
-    top: 20px;
+    top: 8px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
@@ -276,7 +276,7 @@ body {
 .memory-card {
     position: absolute;
     bottom: 20px;
-    left: 50%;
+    left: 230px;
     transform: translateX(-50%) translateY(500px);
     z-index: 1001;
     background: var(--bg-lighter);

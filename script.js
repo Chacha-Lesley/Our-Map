@@ -8,6 +8,8 @@ const sortedMemories = [...memories].filter(m => m.date !== "The Future");
 // Initialize the map
 const map = L.map('map').setView([memories[0].lat, memories[0].lng], 12);
 
+
+
 // Add OpenStreetMap tile layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
@@ -129,7 +131,22 @@ function showMemory(mem) {
     }
 
     document.getElementById('memoryCard').classList.add('show');
-    map.setView([mem.lat, mem.lng], 15);
+    // Center map on the memory
+    map.setView([mem.lat, mem.lng], 15, {
+        animate: true
+    });
+
+// Shift map so the marker does NOT sit under the memory card
+    setTimeout(() => {
+        const isMobile = window.innerWidth <= 768;
+
+        map.panBy(
+            isMobile
+                ? [0, -200]   // Mobile: push marker upward
+                : [-280, 0],  // Desktop: push marker right
+            { animate: true }
+        );
+    }, 300);
 }
 
 function closeCard() {

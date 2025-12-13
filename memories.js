@@ -490,6 +490,16 @@ let memories = [
         audio: "",
         isGolden: false
     },
+    {
+        name: "Homa Ya Kumaliza Watu",
+        lat: -1.32800,
+        lng: 36.68312,
+        date: "2024, Kerarapon",
+        memory: "Apparently where you saw the Late sneezing and snorting.",
+        photo: "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800",
+        audio: "",
+        isGolden: false
+    },
 ];
 
 // ========================================
