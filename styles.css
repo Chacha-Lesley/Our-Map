@@ -1,0 +1,527 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Core colors */
+    --primary-color: #008080;       /* teal green for headings, highlights, markers */
+    --golden-color: #FFD700;        /* golden yellow for accents, glow effects */
+
+    /* Text colors */
+    --text-dark: #333333;
+    --text-gray: #666666;
+    --text-light-gray: #999999;
+
+    /* Backgrounds */
+    --bg-light: #E0F7F7;            /* soft teal hint */
+    --bg-lighter: #F8F8F8;          
+    --bg-white: #FFFFFF;
+    --bg-transparent-white: rgba(255, 255, 255, 0.95);
+    --map-bg: #DFF3F3;              /* subtle teal for map */
+
+    /* Borders & shadows */
+    --border-light: #E0E0E0;
+    --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --shadow-strong: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+
+body {
+    font-family: 'Georgia', serif;
+    overflow: hidden;
+}
+
+#map {
+    width: 100vw;
+    height: 100vh;
+    background: var(--map-bg);
+}
+
+.header {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: var(--bg-transparent-white);
+    padding: 15px 30px;
+    border-radius: 15px;
+    box-shadow: var(--shadow-medium);
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.header h1 {
+    font-size: 24px;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.header p {
+    font-size: 14px;
+    color: var(--text-gray);
+    font-style: italic;
+}
+
+.controls {
+    position: absolute;
+    top: 120px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Shared glassy style */
+.control-btn,
+.btn-primary,
+.btn-secondary {
+    position: relative;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.25s ease;
+}
+
+/* Teal & Yellow glow effects */
+.control-btn:hover,
+.btn-primary:hover,
+.btn-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 128, 128, 0.35), 
+                0 0 25px rgba(255, 215, 0, 0.35);
+}
+
+/* Control buttons → yellow-teal gradient */
+.control-btn {
+    display: flex;                 /* Flex layout for icon + text */
+    align-items: center;           /* Vertically center icon and text */
+    justify-content: flex-start;   /* Left-align content */
+    gap: 10px;                     /* Space between icon and text */
+
+    color: teal;
+    border: 2px solid var(--golden-color);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 215, 0, 0.4),
+        rgba(0, 128, 128, 0.25)
+    );
+
+    position: relative;
+    padding: 14px 24px;
+    border-radius: 14px;
+
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.25s ease;
+}
+
+.control-btn span {
+    flex: 1;                       /* Text fills remaining space */
+    text-align: left;              /* Left-align text */
+}
+
+.control-btn i {
+    font-size: 18px;               /* Icon size */
+}
+
+.control-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 128, 128, 0.35), 
+                0 0 25px rgba(255, 215, 0, 0.35);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 215, 0, 0.55),
+        rgba(0, 128, 128, 0.4)
+    );
+}
+/* Primary actions → bold teal glass */
+
+
+.timeline-container {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: var(--bg-transparent-white);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    display: none;
+}
+
+.timeline-container.show {
+    display: block;
+}
+
+.timeline-slider {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--bg-light);
+    outline: none;
+    margin: 15px 0;
+    cursor: pointer;
+}
+
+.timeline-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.timeline-slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.timeline-info {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-gray);
+    margin-bottom: 10px;
+}
+
+.timeline-label {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 16px;
+}
+
+/* Base icon container replacing .heart-marker */
+.custom-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: none; /* SVG supplies visual */
+    cursor: pointer;
+
+    animation: pulse 2s infinite;
+    transition: transform 0.3s;
+}
+
+/* Hover scaling preserved */
+.custom-icon:hover {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 8px var(--golden-color));
+}
+
+/* Uniform scaling for all SVG markers */
+.custom-icon svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    fill: var(--primary-color);
+    transition: fill 0.3s;
+}
+
+/* Memory with “golden” status */
+.custom-icon.golden svg {
+    fill: var(--golden-color);
+}
+
+/* Optional utilities for future flexibility */
+.custom-icon.icon-small {
+    width: 30px;
+    height: 30px;
+}
+
+.custom-icon.icon-large {
+    width: 55px;
+    height: 55px;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.memory-card {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(500px);
+    z-index: 1001;
+    background: var(--bg-lighter);
+    border-radius: 15px;
+    box-shadow: var(--shadow-strong);
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+                background 1s ease, box-shadow 0.5s ease;
+    cursor: url('https://cdn-icons-png.flaticon.com/512/616/616408.png'), auto; /* sparkle cursor */
+}
+
+/* Hover: smooth background gradient + subtle glow */
+.memory-card:hover {
+    background: linear-gradient(135deg, #008080, #FFD700, #00B3B3, #E0F7F7);
+    background-size: 400% 400%;
+    animation: gradientShift 8s ease infinite;
+    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5), 0 0 25px rgba(0, 128, 128, 0.3);
+    transform: translateX(-50%) translateY(0) scale(1.02);
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.memory-card.show {
+    transform: translateX(-50%) translateY(-20vh);
+}
+
+
+.polaroid {
+    background: var(--bg-lighter);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-soft);
+}
+
+.polaroid img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.memory-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.memory-date {
+    font-size: 12px;
+    color: var(--text-light-gray);
+    margin-bottom: 12px;
+    font-style: italic;
+}
+
+.memory-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+}
+
+.memory-distance {
+    font-size: 14px;
+    color: var(--text-gray);
+    margin-bottom: 15px;
+}
+
+.audio-player {
+    margin-top: 15px;
+    padding: 12px;
+    background: var(--bg-light);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.audio-player audio {
+    width: 100%;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--primary-color);
+    color: var(--bg-white);
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    transition: transform 0.2s;
+}
+
+.close-btn:hover {
+    transform: scale(1.1);
+}
+
+.add-memory-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-memory-modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-white);
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-title {
+    font-size: 24px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid var(--border-light);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Georgia', serif;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-flex;          /* Flex container for icon + text */
+    align-items: center;          
+    justify-content: flex-start;       
+    gap: 8px;                      /* Space between icon and text */
+    padding: 12px 20px;            /* Adjust padding for breathing room */
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    width: 100%;                  /* Full width for better touch targets */
+    text-align: left;
+}
+
+.audio-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: var(--bg-white);
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.audio-controls.show {
+    display: block;
+}
+
+.audio-controls button {
+    background: var(--primary-color);
+    color: var(--bg-white);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.audio-info {
+    font-size: 12px;
+    color: var(--text-gray);
+    margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 18px;
+    }
+    .header p {
+        font-size: 12px;
+    }
+    .memory-card {
+        width: 95%;
+    }
+    .controls {
+        top: 100px;
+        right: 10px;
+    }
+    .control-btn {
+        padding: 10px 15px;
+        font-size: 12px;
+    }
+    .timeline-container {
+        bottom: 30px; /* slightly higher on smaller screens if needed */
+    }
+}
+

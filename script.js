@@ -1,0 +1,291 @@
+// ========================================
+// MAIN APPLICATION LOGIC
+// ========================================
+
+// Sort memories by date for timeline (exclude future memories)
+const sortedMemories = [...memories].filter(m => m.date !== "The Future");
+
+// Initialize the map
+const map = L.map('map').setView([memories[0].lat, memories[0].lng], 12);
+
+// Add OpenStreetMap tile layer
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+let userLocation = null;
+
+// In showMemory function, replace the entire distance handling block (from const distanceDiv = ... to the else for geolocation) with:
+const distanceDiv = document.getElementById('memoryDistance');
+distanceDiv.textContent = 'Calculating distance...';
+
+if (userLocation) {
+    const memLatLng = new L.LatLng(mem.lat, mem.lng);
+    const dist = memLatLng.distanceTo(userLocation) / 1000;
+    distanceDiv.textContent = `Distance from your approximate location (via IP): ${dist.toFixed(2)} km`;
+} else {
+    fetch('https://ipapi.co/json/')
+        .then(response => response.json())
+        .then(data => {
+            if (data.latitude && data.longitude) {
+                userLocation = new L.LatLng(data.latitude, data.longitude);
+                const memLatLng = new L.LatLng(mem.lat, mem.lng);
+                const dist = memLatLng.distanceTo(userLocation) / 1000;
+                distanceDiv.textContent = `Distance from your approximate location (via IP): ${dist.toFixed(2)} km`;
+            } else {
+                distanceDiv.textContent = 'Unable to get location data.';
+            }
+        })
+        .catch(error => {
+            distanceDiv.textContent = 'Error fetching location: ' + error.message;
+        });
+}
+
+// Create custom heart icons
+const heartIcon = L.divIcon({
+    className: 'custom-marker',
+    html: '<i class="fas fa-map-pin fa-3x" style="color: var(--primary-color);"></i>',
+    iconSize: [25, 41],
+    iconAnchor: [12.5, 41]
+});
+
+const goldenHeartIcon = L.divIcon({
+    className: 'custom-marker',
+    html: '<i class="fas fa-map-pin fa-3x" style="color: var(--golden-color);"></i>',
+    iconSize: [25, 41],
+    iconAnchor: [12.5, 41]
+});
+
+let markers = [];
+
+// ========================================
+// MARKER CREATION
+// ========================================
+
+function createMarkers() {
+    // Remove existing markers
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+
+    // Add markers for each memory
+    memories.forEach((mem) => {
+        const marker = L.marker([mem.lat, mem.lng], {
+            icon: mem.isGolden ? goldenHeartIcon : heartIcon
+        }).addTo(map);
+
+        marker.on('click', () => showMemory(mem));
+        markers.push(marker);
+    });
+}
+
+createMarkers();
+
+// ========================================
+// MEMORY CARD DISPLAY
+// ========================================
+
+function showMemory(mem) {
+    document.getElementById('memoryImg').src = mem.photo;
+    document.getElementById('memoryTitle').textContent = mem.name;
+    document.getElementById('memoryDate').textContent = mem.date;
+    document.getElementById('memoryText').textContent = mem.memory;
+
+    // Handle distance
+    const distanceDiv = document.getElementById('memoryDistance');
+    distanceDiv.textContent = 'Calculating distance...';
+    if (navigator.geolocation) {
+        if (userLocation) {
+            const memLatLng = new L.LatLng(mem.lat, mem.lng);
+            const dist = memLatLng.distanceTo(userLocation) / 1000;
+            distanceDiv.textContent = `Distance from your current location: ${dist.toFixed(2)} km`;
+        } else {
+            navigator.geolocation.getCurrentPosition((position) => {
+                userLocation = new L.LatLng(position.coords.latitude, position.coords.longitude);
+                const memLatLng = new L.LatLng(mem.lat, mem.lng);
+                const dist = memLatLng.distanceTo(userLocation) / 1000;
+                distanceDiv.textContent = `Distance from your current location: ${dist.toFixed(2)} km`;
+            }, (error) => {
+                distanceDiv.textContent = 'Unable to get current location.';
+            });
+        }
+    } else {
+        distanceDiv.textContent = 'Geolocation not supported.';
+    }
+
+    // Add audio player if audio exists
+    const audioContainer = document.getElementById('audioContainer');
+    if (mem.audio) {
+        audioContainer.innerHTML = `
+            <div class="audio-player">
+                <i class="fas fa-music"></i>
+                <audio controls autoplay>
+                    <source src="${mem.audio}" type="audio/mpeg">
+                </audio>
+            </div>
+        `;
+    } else {
+        audioContainer.innerHTML = '';
+    }
+
+    document.getElementById('memoryCard').classList.add('show');
+    map.setView([mem.lat, mem.lng], 15);
+}
+
+function closeCard() {
+    document.getElementById('memoryCard').classList.remove('show');
+}
+
+// ========================================
+// TIMELINE FUNCTIONALITY
+// ========================================
+
+function toggleTimeline() {
+    const container = document.getElementById('timelineContainer');
+    container.classList.toggle('show');
+    
+    if (container.classList.contains('show')) {
+        const slider = document.getElementById('timelineSlider');
+        slider.max = sortedMemories.length - 1;
+        slider.value = 0;
+        updateTimelineDisplay(0);
+    }
+}
+
+document.getElementById('timelineSlider').addEventListener('input', (e) => {
+    updateTimelineDisplay(parseInt(e.target.value));
+});
+
+function updateTimelineDisplay(index) {
+    const mem = sortedMemories[index];
+    document.getElementById('currentMemoryName').textContent = mem.name;
+    showMemory(mem);
+}
+
+// ========================================
+// PLAY ALL AUDIO FUNCTIONALITY
+// ========================================
+
+let currentAudioIndex = 0;
+
+function playAllAudio() {
+    const memoriesWithAudio = memories.filter(m => m.audio);
+    
+    if (memoriesWithAudio.length === 0) {
+        alert('No voice notes added yet! Add audio URLs in memories.js to hear them play.');
+        return;
+    }
+
+    document.getElementById('audioControls').classList.add('show');
+    currentAudioIndex = 0;
+    playNextAudio(memoriesWithAudio);
+}
+
+function playNextAudio(memoriesWithAudio) {
+    if (currentAudioIndex >= memoriesWithAudio.length) {
+        stopAllAudio();
+        return;
+    }
+
+    const mem = memoriesWithAudio[currentAudioIndex];
+    document.getElementById('currentAudioName').textContent = mem.name;
+    document.getElementById('audioProgress').textContent = 
+        `${currentAudioIndex + 1}/${memoriesWithAudio.length}`;
+
+    // Show the memory on map while playing
+    showMemory(mem);
+
+    const audio = new Audio(mem.audio);
+    audio.play();
+    audio.onended = () => {
+        currentAudioIndex++;
+        setTimeout(() => playNextAudio(memoriesWithAudio), 1000); // 1 second pause between tracks
+    };
+}
+
+function stopAllAudio() {
+    document.getElementById('audioControls').classList.remove('show');
+    currentAudioIndex = 0;
+}
+
+// ========================================
+// ADD MEMORY FUNCTIONALITY
+// ========================================
+
+function openAddMemory() {
+    document.getElementById('addMemoryModal').classList.add('show');
+}
+
+function closeAddMemory() {
+    document.getElementById('addMemoryModal').classList.remove('show');
+    // Clear form
+    document.getElementById('newMemoryName').value = '';
+    document.getElementById('newMemoryDate').value = '';
+    document.getElementById('newMemoryText').value = '';
+    document.getElementById('newMemoryPhoto').value = '';
+}
+
+function saveNewMemory() {
+    const name = document.getElementById('newMemoryName').value;
+    const date = document.getElementById('newMemoryDate').value;
+    const text = document.getElementById('newMemoryText').value;
+    const photo = document.getElementById('newMemoryPhoto').value || 
+        'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800';
+
+    if (!name || !text) {
+        alert('Please fill in at least the place name and your memory!');
+        return;
+    }
+
+    // Get center of current map view as location
+    const center = map.getCenter();
+
+    const newMemory = {
+        name: name,
+        lat: center.lat,
+        lng: center.lng,
+        date: date || 'Recently',
+        memory: text,
+        photo: photo,
+        audio: '',
+        isGolden: false
+    };
+
+    memories.push(newMemory);
+    createMarkers();
+    closeAddMemory();
+    showMemory(newMemory);
+    
+    alert('Memory added! ❤️ You can adjust the location by dragging the map and re-adding if needed.');
+}
+
+// ========================================
+// MAP CLICK HANDLER
+// ========================================
+
+map.on('click', (e) => {
+    // Close memory card when clicking on map (not on markers)
+    if (!document.getElementById('memoryCard').classList.contains('show')) {
+        closeCard();
+    }
+});
+
+// Toggle Map Day/Night Mode
+const dayLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 });
+const nightLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', { maxZoom: 20 });
+
+let currentLayer = dayLayer;
+map.addLayer(currentLayer);
+
+function toggleMapTheme() {
+    map.removeLayer(currentLayer);
+    currentLayer = currentLayer === dayLayer ? nightLayer : dayLayer;
+    map.addLayer(currentLayer);
+}
+
+//Surprise Button Functionality
+function showRandomMemory() {
+    const randomMem = memories[Math.floor(Math.random() * memories.length)];
+    showMemory(randomMem);
+}
+

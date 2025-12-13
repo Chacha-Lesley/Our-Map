@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All The Roads That Led us Here</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>All The Roads That Led us Here</h1>
+        <p>Every place we've made a memory together</p>
+    </div>
+
+    <div class="controls">
+        <button class="control-btn" onclick="toggleTimeline()">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Timeline</span>
+        </button>
+        <button class="control-btn" onclick="playAllAudio()">
+            <i class="fas fa-music"></i>
+            <span>Play All</span>
+        </button>
+        <button class="control-btn" onclick="openAddMemory()">
+            <i class="fas fa-star"></i>
+            <span>Add Memory</span>
+        </button>
+        <button class="control-btn" onclick="toggleMapTheme()">
+            <i class="fas fa-moon"></i>
+            <span>Day/Night</span>
+        </button>
+        <button class="control-btn" onclick="showRandomMemory()">
+            <i class="fas fa-gift"></i> 
+            <span> Surprise Me</span>
+        </button>
+
+
+    </div>
+
+
+    <div id="timelineContainer" class="timeline-container">
+        <div class="timeline-info">
+            <div class="timeline-label" id="timelineLabel">Drag to explore our journey</div>
+            <div id="currentMemoryName"></div>
+        </div>
+        <input type="range" id="timelineSlider" class="timeline-slider" min="0" max="0" value="0">
+    </div>
+
+    <div id="map"></div>
+
+    <div id="memoryCard" class="memory-card">
+        <button class="close-btn" onclick="closeCard()"><i class="fas fa-times"></i></button>
+        <div class="polaroid">
+            <img id="memoryImg" src="" alt="Memory">
+            <div class="memory-title" id="memoryTitle"></div>
+            <div class="memory-date" id="memoryDate"></div>
+            <div class="memory-text" id="memoryText"></div>
+            <div class="memory-distance" id="memoryDistance"></div>
+            <div id="audioContainer"></div>
+        </div>
+    </div>
+
+    <div id="audioControls" class="audio-controls">
+        <div class="audio-info">Playing: <span id="currentAudioName">None</span></div>
+        <div class="audio-info">Progress: <span id="audioProgress">0/0</span></div>
+        <button onclick="stopAllAudio()"><i class="fas fa-stop"></i> Stop</button>
+    </div>
+
+    <div id="addMemoryModal" class="add-memory-modal">
+        <div class="modal-content">
+            <div class="modal-title">Add Your Memory <i class="fas fa-star"></i></div>
+            <div class="form-group">
+                <label>Place Name</label>
+                <input type="text" id="newMemoryName" placeholder="e.g., Our First Date Spot">
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="text" id="newMemoryDate" placeholder="e.g., 14 Feb 2023">
+            </div>
+            <div class="form-group">
+                <label>Your Memory</label>
+                <textarea id="newMemoryText" placeholder="What made this place special?"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Photo URL (optional)</label>
+                <input type="text" id="newMemoryPhoto" placeholder="Paste image link from imgur.com">
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-secondary" onclick="closeAddMemory()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveNewMemory()">Save Memory <i class="fas fa-heart"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <script src="memories.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
