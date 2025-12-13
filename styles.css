@@ -41,7 +41,7 @@ body {
 }
 
 .header {
-    position: absolute;
+    position: fixed;
     top: 8px;
     left: 50%;
     transform: translateX(-50%);
@@ -68,7 +68,7 @@ body {
 
 .controls {
     position: absolute;
-    top: 120px;
+    top: 250px;
     right: 20px;
     z-index: 1000;
     display: flex;
