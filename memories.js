@@ -152,8 +152,8 @@ let memories = [
     {
         //Missing Restaurant Name
         name: "Graduator-in-Chief!",
-        lat: 19.0760,
-        lng: 72.8777,
+        lat: -1.22307,
+        lng: 36.83831,
         date: "2023, Graduation Party Place",
         memory: "I was so proud of you! And a by-product of that was meeting YOUR FATHER!",
         photo: "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800",
