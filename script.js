@@ -271,8 +271,8 @@ map.on('click', (e) => {
 });
 
 // Toggle Map Day/Night Mode
-const dayLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 });
-const nightLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', { maxZoom: 20 });
+const dayLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?api_key=27dc7981-4074-4b7c-9b0b-0a957ea9cec5', { maxZoom: 19 });
+const nightLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key=27dc7981-4074-4b7c-9b0b-0a957ea9cec5', { maxZoom: 20 });
 
 let currentLayer = dayLayer;
 map.addLayer(currentLayer);
