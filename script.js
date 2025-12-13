@@ -180,52 +180,6 @@ function updateTimelineDisplay(index) {
 }
 
 // ========================================
-// PLAY ALL AUDIO FUNCTIONALITY
-// ========================================
-
-let currentAudioIndex = 0;
-
-function playAllAudio() {
-    const memoriesWithAudio = memories.filter(m => m.audio);
-    
-    if (memoriesWithAudio.length === 0) {
-        alert('No voice notes added yet! Add audio URLs in memories.js to hear them play.');
-        return;
-    }
-
-    document.getElementById('audioControls').classList.add('show');
-    currentAudioIndex = 0;
-    playNextAudio(memoriesWithAudio);
-}
-
-function playNextAudio(memoriesWithAudio) {
-    if (currentAudioIndex >= memoriesWithAudio.length) {
-        stopAllAudio();
-        return;
-    }
-
-    const mem = memoriesWithAudio[currentAudioIndex];
-    document.getElementById('currentAudioName').textContent = mem.name;
-    document.getElementById('audioProgress').textContent = 
-        `${currentAudioIndex + 1}/${memoriesWithAudio.length}`;
-
-    // Show the memory on map while playing
-    showMemory(mem);
-
-    const audio = new Audio(mem.audio);
-    audio.play();
-    audio.onended = () => {
-        currentAudioIndex++;
-        setTimeout(() => playNextAudio(memoriesWithAudio), 1000); // 1 second pause between tracks
-    };
-}
-
-function stopAllAudio() {
-    document.getElementById('audioControls').classList.remove('show');
-    currentAudioIndex = 0;
-}
-
-// ========================================
 // ADD MEMORY FUNCTIONALITY
 // ========================================
 

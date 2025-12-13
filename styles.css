@@ -68,7 +68,7 @@ body {
 
 .controls {
     position: absolute;
-    top: 250px;
+    top: 200px;
     right: 20px;
     z-index: 1000;
     display: flex;
@@ -285,6 +285,7 @@ body {
     width: 90%;
     max-width: 400px;
     padding: 20px;
+    opacity: 0;
     transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55),
                 background 1s ease, box-shadow 0.5s ease;
     cursor: url('https://cdn-icons-png.flaticon.com/512/616/616408.png'), auto; /* sparkle cursor */
@@ -307,8 +308,13 @@ body {
 
 .memory-card.show {
     transform: translateX(-50%) translateY(-20vh);
+    opacity: 1;
 }
 
+.memory-card.hide {
+    transform: translateX(-50%) translateY(500px);
+    opacity: 0;
+}    
 
 .polaroid {
     background: var(--bg-lighter);
@@ -350,20 +356,6 @@ body {
     font-size: 14px;
     color: var(--text-gray);
     margin-bottom: 15px;
-}
-
-.audio-player {
-    margin-top: 15px;
-    padding: 12px;
-    background: var(--bg-light);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.audio-player audio {
-    width: 100%;
 }
 
 .close-btn {
@@ -468,49 +460,12 @@ body {
     text-align: left;
 }
 
-.audio-controls {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-    background: var(--bg-white);
-    padding: 15px;
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    display: none;
-}
-
-.audio-controls.show {
-    display: block;
-}
-
-.audio-controls button {
-    background: var(--primary-color);
-    color: var(--bg-white);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-top: 10px;
-    width: 100%;
-}
-
-.audio-info {
-    font-size: 12px;
-    color: var(--text-gray);
-    margin-bottom: 10px;
-}
-
 @media (max-width: 768px) {
     .header h1 {
         font-size: 18px;
     }
     .header p {
         font-size: 12px;
-    }
-    .memory-card {
-        width: 95%;
     }
     .controls {
         top: 100px;
@@ -522,6 +477,17 @@ body {
     }
     .timeline-container {
         bottom: 30px; /* slightly higher on smaller screens if needed */
+    }
+    .memoryCard {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) translateY(100%);
+        width: calc(100% - 32px);
+        max-width: 420px;
+    }
+
+    .memoryCard.show {
+        transform: translateX(-50%) translateY(0);
     }
 }
 
