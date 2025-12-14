@@ -50,11 +50,11 @@
         <button class="close-btn" onclick="closeCard()"><i class="fas fa-times"></i></button>
         <div class="polaroid">
             <img id="memoryImg" src="" alt="Memory">
+            <i id="zoomBtn" class="fas fa-search-plus zoom-icon"></i>
             <div class="memory-title" id="memoryTitle"></div>
             <div class="memory-date" id="memoryDate"></div>
             <div class="memory-text" id="memoryText"></div>
             <div class="memory-distance" id="memoryDistance"></div>
-            <div id="audioContainer"></div>
         </div>
     </div>
 
@@ -81,6 +81,10 @@
                 <button class="btn btn-secondary" onclick="closeAddMemory()">Cancel</button>
                 <button class="btn btn-primary" onclick="saveNewMemory()">Save Memory <i class="fas fa-heart"></i></button>
             </div>
+        </div>
+    </div>
+    <div id="fullImageModal" class="add-memory-modal" onclick="closeFullImage()">
+            <img id="fullMemoryImg" src="" alt="Full Memory">
         </div>
     </div>
 

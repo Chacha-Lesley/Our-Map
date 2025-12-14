@@ -16,7 +16,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 let userLocation = null;
 
-// In showMemory function, replace the entire distance handling block (from const distanceDiv = ... to the else for geolocation) with:
+// Initial distance calculation for the first memory
 const distanceDiv = document.getElementById('memoryDistance');
 distanceDiv.textContent = 'Calculating distance...';
 
@@ -91,6 +91,11 @@ function showMemory(mem) {
     document.getElementById('memoryDate').textContent = mem.date;
     document.getElementById('memoryText').textContent = mem.memory;
 
+    // Zoom button functionality
+    const zoomBtn = document.getElementById('zoomBtn');
+    const img = document.getElementById('memoryImg');
+    zoomBtn.onclick = () => openFullImage(mem.photo);
+    img.onclick = () => openFullImage(mem.photo);
     // Handle distance
     const distanceDiv = document.getElementById('memoryDistance');
     distanceDiv.textContent = 'Calculating distance...';
@@ -148,6 +153,15 @@ function closeCard() {
         card.removeEventListener('transitionend', handler);
     });
 }
+function openFullImage(src) {
+    document.getElementById('fullMemoryImg').src = src;
+    document.getElementById('fullImageModal').classList.add('show');
+}
+
+function closeFullImage() {
+    document.getElementById('fullImageModal').classList.remove('show');
+}
+
 
 // ========================================
 // TIMELINE FUNCTIONALITY

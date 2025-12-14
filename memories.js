@@ -5,9 +5,8 @@ let memories = [
         lng: 36.71907,
         date: "2022, The Oaks",
         memory: "In our origin story, we will always say that we met, watched The Matrix, and nothing happened. But you know what? We have never finished the Matrix.",
-        photo: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=800",
-        audio: "", // Add your Vocaroo link here: "https://vocaroo.com/xyz.mp3"
-        isGolden: false
+        photo: "images/The Matrix.jpg",
+        isGolden: true
     },
     {
         name: "I Swear, Not Stalking",
@@ -17,6 +16,33 @@ let memories = [
         memory: "I saw you first before you saw me, and if I may ask, were you in a rush to meet me?",
         photo: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800",
         audio: "",
+        isGolden: false
+    },
+    {
+        name: "Some Forest Food For Thought",
+        lat: -1.23854,
+        lng: 36.71744, 
+        date: "2023, Somewhere in Kabete",
+        memory: "Our first picnic; just pancakes, bananas, and a gorgeous woman by my side.",
+        photo: "images/Picnic.jpg",
+        isGolden: false
+    },
+    {
+        name: "Running On My Mind",
+        lat: -1.35221,
+        lng: 36.66568, 
+        date: "2024, Hilltop Road, Ngong",
+        memory: "To say I liked watching you jiggle will be inappropriate, but I did like watching you jiggle.",
+        photo: "",
+        isGolden: false
+    },
+    {
+        name: "Graduator Part One",
+        lat: -1.21597,
+        lng: 36.87887, 
+        date: "2023, USIU",
+        memory: "I had to be there to witness the first Masters of many!",
+        photo: "",
         isGolden: false
     },
     {
@@ -75,8 +101,7 @@ let memories = [
         lng: 36.82318,
         date: "2022, KICC",
         memory: "I finally got to physically feel how I feel when I think of you; always like I am on top of the world. I wanted to be on top of you but that was not appropriate.",
-        photo: "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800",
-        audio: "",
+        photo: "",
         isGolden: false
     },  
     {
@@ -85,8 +110,7 @@ let memories = [
         lng: 37.06861,
         date: "2023, Thika",
         memory: "We saw a waterfall, kissed under the rainbow, and made the tour guide uncomfortable as hell!",
-        photo: "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800",
-        audio: "",
+        photo: "",
         isGolden: false
     },     
     {
@@ -95,8 +119,34 @@ let memories = [
         lng: 36.91857,
         date: "2023, Thika Road",
         memory: "I still think about THAT van ride back; I'd do it all over again.",
-        photo: "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800",
-        audio: "",
+        photo: "",
+        isGolden: false
+    },
+    {
+        name: "War Crimes",
+        lat: -1.31043, 
+        lng: 36.74872, 
+        date: "2024, War Cemetary",
+        memory: "I'd readily commit war crimes for you to smile like that any day!",
+        photo: "",
+        isGolden: false
+    },
+    {
+        name: "I Swear, Kupanda Miti",
+        lat: -1.23627,
+        lng: 36.71890, 
+        date: "2024, The Oaks",
+        memory: "As it happens, your love for planting trees is only rivaled by my love for you.",
+        photo: "",
+        isGolden: false
+    },
+    {
+        name: "Prom Night",
+        lat: -1.23901, 
+        lng: 36.73694, 
+        date: "2024, LKC ",
+        memory: "There's something about seeing you in a beautiful dress that makes me want to dance with you all night long.",
+        photo: "",
         isGolden: false
     },
     {
@@ -205,8 +255,7 @@ let memories = [
         lng: 36.82280,
         date: "2023, Sarova",
         memory: "Charmed the hell out of your friend she had to introduce us to her coworkers. I couldn't believe mayaiiiiiiissss!",
-        photo: "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800",
-        audio: "",
+        photo: "images/Sarova.jpg",
         isGolden: false
     },
     {
@@ -496,6 +545,26 @@ let memories = [
         date: "2024, Kerarapon",
         memory: "Apparently where you saw the Late sneezing and snorting.",
         photo: "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800",
+        audio: "",
+        isGolden: false
+    },
+    {
+        name: "Graduation Photoshoot",
+        lat: -1.26455,
+        lng: 36.80275, 
+        date: "2023, The Mall",
+        memory: "I was not there physically but my heart was with you as you took those stunning graduation photos!",
+        photo: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800",
+        audio: "",
+        isGolden: false
+    },    
+    {
+        name: "Graduation Photoshoot Part Two",
+        lat: -1.23631,
+        lng: 36.71926, 
+        date: "2023, The Oaks",
+        memory: "Of course we had to do a reshoot on our own terms!",
+        photo: "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=800",
         audio: "",
         isGolden: false
     },
