@@ -50,7 +50,7 @@ let memories = [
         lng: 36.728083,
         date: "2023, La Paz",
         memory: "The ONE day I came late that you never let me see the end of! For that, here is a flower for 'I am sorry'.",
-        photo: "images/Date date.jpg",
+        photo: "images/Date Date.jpg",
         isGolden: false
     },
     {
@@ -265,7 +265,7 @@ let memories = [
         lat: -1.26805,
         lng: 36.76427,
         date: "2024, Saracen Offices",
-        memory: "We got some work-stuff, but never used them; much like we were at the same place but on different times. I bet you charmed everyone t work when you spoke.",
+        memory: "We got some work-stuff, but never used them; much like we were at the same place but on different times. I bet you charmed everyone at work when you spoke.",
         photo: "images/Official.jpg",
         isGolden: false
     },
