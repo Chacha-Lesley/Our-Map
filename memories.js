@@ -172,9 +172,9 @@ let memories = [
     },
     {
         name: "Snack Eating A Snack Before The Snack",
-        lat: -1.23906, 
-        lng: 36.73693, 
-        date: "2024, That Karen Place",
+        lat: -1.32874, 
+        lng: 36.70436, 
+        date: "2024, Entim Sidai",
         memory: "The food was great but you tasted greater!",
         photo: "images/Snack.jpg",
         isGolden: false
