@@ -315,7 +315,7 @@ let memories = [
         lng: 36.78981,
         date: "2024, Baobox",
         memory: "There's no price for a full meal and a whole ass date night! We vowed never to speak of our MPesa balances the next day.",
-        photo: "https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=800",
+        photo: "https://drive.google.com/file/d/1GvXmLEI30LLKkjq2iGFo0efelMqv9ciQ/preview",
         audio: "",
         isGolden: false
     },
